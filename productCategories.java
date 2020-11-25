@@ -1,14 +1,15 @@
-import java.util.Scanner;
-
+import java.util.ArrayList;
 public class productCategories implements ProductManipulation{
     private String categories;
-    private products[] products;
+    ArrayList Products = new ArrayList();
     static int x=0;
 
     public productCategories(String categories) {
         this.categories = categories;
     }
-
+    public productCategories() {
+        this.categories = "";
+    }
     public String getCategories() {
         return categories;
     }
@@ -17,21 +18,47 @@ public class productCategories implements ProductManipulation{
         this.categories = categories;
     }
 
-    public products[] getProducts() {
-        return products;
-    }
-
     @Override
-    public void addProduct() {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Product Name: ");
-        this.products[x].setProductName(input.nextLine());
-        System.out.print("\nProduct Serial Number: ");
-        this.products[x].setSerialNumber(input.nextInt());
+    public void addProduct() { //add product
+        Menus.printii();
+        System.out.println("Enter Product name: ");
+        String N = Menus.userStrInput();
+        System.out.println("Enter Product Serial number: ");
+        int ser = Menus.userInput();
+        System.out.println("Enter Product Expiration Date: ");
+        String date = Menus.userStrInput();
+        System.out.println("Enter Product Quantity: ");
+        int q = Menus.userInput();
+        System.out.println("Enter Product Price: ");
+        double prix = Menus.userDubInput();
+        products prod = new products(N, ser, date, q, prix);
+        Products.add(prod);
+
+//        System.out.print("Product Name: ");
+//        String PN1 = input.nextLine();
+//        products.add(PN1);
+//      //  this.products[x].setProductName(input.nextLine());
+//        System.out.print("\nProduct Serial Number: ");
+//        double PS1 = input.nextDouble();
+//        products.add(PS1);
+//        System.out.println(products);
+//
+//        // this.products[x].setSerialNumber(input.nextInt());
+
     }
 
     @Override
     public void removeProduct() {
 
+    }
+
+    @Override
+    public String toString() {
+        String x = "";
+        for (int i = 0; i < Products.size(); i++) {
+            x += Products.get(i).toString();
+        }
+
+        return x;
     }
 }

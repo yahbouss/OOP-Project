@@ -3,11 +3,13 @@ import java.util.Objects;
 //VARIABLES
 public class products {
 
+
     private String ProductName;
     private int SerialNumber;
     private String ExpirationDate;
     private int Quantity;
     private double Price;
+    int count;
 
     // GETTERS AND SETTERS
     public double getPrice() {
@@ -50,7 +52,12 @@ public class products {
         this.SerialNumber = serialNumber;
     }
 
-    public products() {
+    public products(String n, int sn, String exp, int q, double prix) {
+        this.ProductName = n;
+        this.SerialNumber = sn;
+        this.ExpirationDate = exp;
+        this.Quantity = q;
+        this.Price = prix;
     }
 
     public boolean almostOutOfStock() {
@@ -72,4 +79,3 @@ public class products {
                 '}';
     }
 }
-
