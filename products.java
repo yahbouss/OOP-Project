@@ -1,7 +1,7 @@
 import java.util.Objects;
 
 //VARIABLES
-public class products {
+public class products implements ProductManipulation{
 
 
     private String ProductName;
@@ -77,5 +77,15 @@ public class products {
                 ", Quantity=" + Quantity +
                 ", Price=" + Price +
                 '}';
+    }
+
+    @Override
+    public void addProduct() {
+        this.Quantity++;
+    }
+
+    @Override
+    public void removeProduct() {
+        this.Quantity--;
     }
 }

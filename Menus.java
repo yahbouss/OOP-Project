@@ -4,7 +4,47 @@ import java.util.ArrayList;
 
 public class Menus {
 
-    static ArrayList Categories = new ArrayList();
+    public static ArrayList<productCategories> category = new ArrayList<>();
+
+    public static String arrayCatPrint_1() {
+        String out = "";
+        if (category.size()==0){
+            out = "empty";
+        }else{
+            for (int i = 0; i < category.size(); i++) {
+                out = "\t"+(i) + "- " + category.get(i).getCategories()+"\n";
+            }
+        }
+        return out;
+    } // print add product category
+
+    public static String arrayCatPrint() {
+        String out = "";
+        if (category.size()==0){
+            out = "empty";
+        }else{
+            for (int i = 0; i < category.size(); i++) {
+                out = "\t"+(i+1) + "- " + category.get(i).getCategories()+"\n";
+            }
+        }
+        return out;
+    } //print inventory category
+
+    public static String arrayProdPrint(ArrayList<products> tab) {
+        String out = "";
+        if (tab.size()==0){
+            out = "empty";
+        }else{
+            for (int i = 0; i < tab.size(); i++) {
+                out += i + "[\t" + tab.get(i).getProductName() + " \t|\t "
+                        + tab.get(i).getSerialNumber() + " \t|\t "
+                        + tab.get(i).getExpirationDate() + " \t|\t "
+                        + tab.get(i).getQuantity() + " \t|\t "
+                        + tab.get(i).getPrice() + " \t] \n";
+            }
+        }
+        return out;
+    } //print products in specific category
 
     public static void printii(){
         System.out.println(
@@ -12,7 +52,7 @@ public class Menus {
                         "This Project is developed as a project for the OOP course\n" +
                         "*************************************************************\n"
         );
-    }
+    } //print head
 
     public static double userDubInput(){
         Scanner input = new Scanner(System.in);
@@ -25,7 +65,7 @@ public class Menus {
             in = userDubInput();
         }
         return in;
-    }
+    } //scan double
 
     public static String userStrInput(){
         Scanner input = new Scanner(System.in);
@@ -38,7 +78,7 @@ public class Menus {
             in = userStrInput();
         }
         return in;
-    }
+    } //scan String
 
     public static int userInput(){
         Scanner input = new Scanner(System.in);
@@ -51,13 +91,13 @@ public class Menus {
             in=69;
         }
         return in;
-    }
+    }  //scan int
 
     public static void userWhateverInput(){
         Scanner input = new Scanner(System.in);
         String x = input.next();
 
-    }
+    } //to work on empty input
 
     public static void clearConsole() {
         try {
@@ -72,14 +112,65 @@ public class Menus {
         }
     }
 
-    public static void inventoryMenu(){//choice 1-1
+    public static void addProductCatMenu(){
         clearConsole();
         System.out.println(
                 "***************  Store Management System v1.0  ***************\n" +
                         "This Project is developed as a project for the OOP course\n" +
                         "*************************************************************\n" +
                         "   Inventory:\n" +
-                        Categories.toString() +
+                        "   0- new category\n"+
+                        arrayCatPrint()+
+                        "\n*************************************************************\n"+
+                        "       Type 0 to return to menu\n"
+        );
+        int input = userInput();
+        if (input==0) {
+            printii();
+            System.out.println("    Enter new Category name: ");
+            String in = userStrInput();
+            productCategories cat = new productCategories(in);
+            category.add(cat);
+            addProductCatMenu();
+        }else if (input>0 && input-1<category.size()){
+            category.get(input-1).addProduct();
+        }else{
+            System.out.println("this choice is not found");
+            addProductCatMenu();
+        }
+
+    } //add category
+
+    public static void inventoryPreMenu(){
+        clearConsole();
+        System.out.println(
+                "***************  Store Management System v1.0  ***************\n" +
+                        "This Project is developed as a project for the OOP course\n" +
+                        "*************************************************************\n" +
+                        "   Inventory:\n" +
+                        arrayCatPrint_1()+
+                        "\n*************************************************************\n"+
+                        "       Type 0 to return to menu\n"
+        );
+        int input = userInput();
+        if (input<category.size()){
+            inventoryMenu(input);
+        }else{
+            System.out.println("this choice is not found");
+            inventoryMainMenu();
+        }
+
+    }
+
+    public static void inventoryMenu(int toukebri){//choice 1-1
+
+        clearConsole();
+        System.out.println(
+                "***************  Store Management System v1.0  ***************\n" +
+                        "This Project is developed as a project for the OOP course\n" +
+                        "*************************************************************\n" +
+                        "   Inventory:\n" +
+                        arrayProdPrint(category.get(toukebri).getProducts())+
                         "\n*************************************************************\n"+
                         "       Type 0 to return to menu\n"
         );
@@ -95,7 +186,7 @@ public class Menus {
                         "*************************************************************\n" +
                         "   Inventory Management:\n" +
                         "       1- Inventory\n" +
-                        "       2- Add product\n" +         //1-existing product(q++, productExpiration)  2-new product
+                        "       2- Add product\n" +         //1-existing product(q++)  2-new product
                         "       3- Remove product\n" +      //1-select from inventory 2-with serial number 3-delete almost expiring products
                         "       4- Update product\n" +      //recheck
                         "       5- Check Stock/expiration\n" +
@@ -105,14 +196,11 @@ public class Menus {
         switch(userInput()) {
             case 1:
                 // Inventory
-                inventoryMenu();
+                inventoryPreMenu();
                 break;
             case 2:
-                System.out.println("Category name: ");
-                productCategories cat = new productCategories();
-                cat.setCategories( userStrInput());
-                Categories.add(cat);
-                cat.addProduct();
+                //add product
+                addProductMenu();
                 break;
             case 3:
                 // Remove product
@@ -147,10 +235,10 @@ public class Menus {
         );
         switch(userInput()) {
             case 1:
-                // add new product --> 1- existing category 2- new category
+                addProductCatMenu();
                 break;
             case 2:
-                // existing product
+                // existing product --> q++
                 break;
             case 3:
                 inventoryMainMenu();
@@ -161,11 +249,10 @@ public class Menus {
 
     }
 
-
     public static void mainMenu(){//0
         clearConsole();
         System.out.println(
-                "***************  Store Managment System v1.0  ***************\n" +
+                "***************  Store Management System v1.0  ***************\n" +
                         "This Project is developed as a project for the OOP course\n" +
                         "*************************************************************\n" +
                         "   Main Menu:\n" +
@@ -191,3 +278,15 @@ public class Menus {
     }
 
 }
+
+//System.out.println("Category name: ");
+//        String n = userStrInput();
+//        productCategories cat = new productCategories(n);
+//        category.add(cat);
+//        printii();
+//        arrayProdPrint(category.get(0).getProducts());
+//
+////                productCategories cat = new productCategories();
+////                cat.setCategories( userStrInput());
+////                Categories.add(cat);
+////                cat.addProduct();

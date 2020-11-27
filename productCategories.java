@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+
 public class productCategories implements ProductManipulation{
+
     private String categories;
-    ArrayList Products = new ArrayList();
-    static int x=0;
+    ArrayList<products> Products = new ArrayList();
 
     public productCategories(String categories) {
         this.categories = categories;
@@ -12,6 +13,10 @@ public class productCategories implements ProductManipulation{
     }
     public String getCategories() {
         return categories;
+    }
+
+    public ArrayList<products> getProducts() {
+        return Products;
     }
 
     public void setCategories(String categories) {
@@ -34,17 +39,6 @@ public class productCategories implements ProductManipulation{
         products prod = new products(N, ser, date, q, prix);
         Products.add(prod);
 
-//        System.out.print("Product Name: ");
-//        String PN1 = input.nextLine();
-//        products.add(PN1);
-//      //  this.products[x].setProductName(input.nextLine());
-//        System.out.print("\nProduct Serial Number: ");
-//        double PS1 = input.nextDouble();
-//        products.add(PS1);
-//        System.out.println(products);
-//
-//        // this.products[x].setSerialNumber(input.nextInt());
-
     }
 
     @Override
@@ -62,3 +56,15 @@ public class productCategories implements ProductManipulation{
         return x;
     }
 }
+
+
+//        System.out.print("Product Name: ");
+//        String PN1 = input.nextLine();
+//        products.add(PN1);
+//      //  this.products[x].setProductName(input.nextLine());
+//        System.out.print("\nProduct Serial Number: ");
+//        double PS1 = input.nextDouble();
+//        products.add(PS1);
+//        System.out.println(products);
+//
+//        // this.products[x].setSerialNumber(input.nextInt());
