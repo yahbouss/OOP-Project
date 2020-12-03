@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Menus {
+public class Menus extends productCategories {
 
     public static ArrayList<productCategories> category = new ArrayList<>();
 
@@ -31,7 +31,11 @@ public class Menus {
     } //print inventory category
 
     public static String arrayProdPrint(ArrayList<products> tab) {
-        String out = "";
+        String out =  "index[\t" + "Product Name" + " \t|\t "
+                + "Serial number" + " \t|\t "
+                + "Expirataion date" + " \t|\t "
+                + "Quantity" + " \t|\t "
+                + "Price" + " \t] \n";;
         if (tab.size()==0){
             out = "empty";
         }else{
@@ -47,6 +51,7 @@ public class Menus {
     } //print products in specific category
 
     public static void printii(){
+        clearConsole();
         System.out.println(
                 "***************  Store Management System v1.0  ***************\n" +
                         "This Project is developed as a project for the OOP course\n" +
@@ -61,7 +66,7 @@ public class Menus {
             in = input.nextDouble();
         }
         catch (IndexOutOfBoundsException e){
-            System.err.println("Invalid input;");
+            System.err.println("Invalid input");
             in = userDubInput();
         }
         return in;
@@ -74,7 +79,7 @@ public class Menus {
             in = input.nextLine();
         }
         catch (IndexOutOfBoundsException e){
-            System.err.println("Invalid input;");
+            System.err.println("Invalid input");
             in = userStrInput();
         }
         return in;
@@ -87,7 +92,7 @@ public class Menus {
             in = input.nextInt();
         }
         catch (IndexOutOfBoundsException e){
-            System.err.println("Invalid input;");
+            System.err.println("Invalid input");
             in=69;
         }
         return in;
@@ -122,18 +127,22 @@ public class Menus {
                         "   0- new category\n"+
                         arrayCatPrint()+
                         "\n*************************************************************\n"+
-                        "       Type 0 to return to menu\n"
+                        "       Type -1 to return to menu\n"
         );
         int input = userInput();
         if (input==0) {
+            clearConsole();
             printii();
             System.out.println("    Enter new Category name: ");
             String in = userStrInput();
             productCategories cat = new productCategories(in);
             category.add(cat);
             addProductCatMenu();
-        }else if (input>0 && input-1<category.size()){
-            category.get(input-1).addProduct();
+        }else if (input>0 && input-1<category.size()) {
+            category.get(input - 1).addProduct(0);
+            addProductCatMenu();
+        }else if (input == -1){
+            inventoryMainMenu();
         }else{
             System.out.println("this choice is not found");
             addProductCatMenu();
@@ -141,7 +150,7 @@ public class Menus {
 
     } //add category
 
-    public static void inventoryPreMenu(){
+    public static int inventoryPreMenu(){
         clearConsole();
         System.out.println(
                 "***************  Store Management System v1.0  ***************\n" +
@@ -150,16 +159,19 @@ public class Menus {
                         "   Inventory:\n" +
                         arrayCatPrint_1()+
                         "\n*************************************************************\n"+
-                        "       Type 0 to return to menu\n"
+                        "       Type -1 to return to menu\n"
         );
         int input = userInput();
         if (input<category.size()){
             inventoryMenu(input);
-        }else{
+        }else if (input ==-1){
+            inventoryMainMenu();
+        }
+        else{
             System.out.println("this choice is not found");
             inventoryMainMenu();
         }
-
+        return input;
     }
 
     public static void inventoryMenu(int toukebri){//choice 1-1
@@ -172,10 +184,8 @@ public class Menus {
                         "   Inventory:\n" +
                         arrayProdPrint(category.get(toukebri).getProducts())+
                         "\n*************************************************************\n"+
-                        "       Type 0 to return to menu\n"
+                        "       Type -1 to return to menu\n"
         );
-        userWhateverInput();
-        inventoryMainMenu();
     }
 
     public static void inventoryMainMenu(){//choice 1
@@ -187,7 +197,7 @@ public class Menus {
                         "   Inventory Management:\n" +
                         "       1- Inventory\n" +
                         "       2- Add product\n" +         //1-existing product(q++)  2-new product
-                        "       3- Remove product\n" +      //1-select from inventory 2-with serial number 3-delete almost expiring products
+                        "       3- Remove product\n" +      //1-select from inventory
                         "       4- Update product\n" +      //recheck
                         "       5- Check Stock/expiration\n" +
                         "       6- Return to main menu\n" +
@@ -197,13 +207,22 @@ public class Menus {
             case 1:
                 // Inventory
                 inventoryPreMenu();
+                userInput();
+                inventoryMainMenu();
                 break;
             case 2:
                 //add product
                 addProductMenu();
                 break;
             case 3:
-                // Remove product
+                int cat = inventoryPreMenu();
+                System.out.println("Select product to remove quantity to:");
+                int inputttt = userInput();
+                System.out.println("Quantity: "+category.get(cat).getProducts().get(inputttt).getQuantity());
+                System.out.println("Quantity to remove:");
+                int input1 = userInput();
+                category.get(cat).getProducts().get(inputttt).removeProduct(input1);
+                inventoryMainMenu();
                 break;
             case 4:
                 // code block
@@ -212,7 +231,7 @@ public class Menus {
                 // code block
                 break;
             case 6:
-
+                mainMenu();
                 break;
             default:
                 System.out.println("\n\nWrong choice please try again! ");
@@ -238,13 +257,21 @@ public class Menus {
                 addProductCatMenu();
                 break;
             case 2:
-                // existing product --> q++
+                int cat = inventoryPreMenu();
+                System.out.println("Select product to add quantity to:");
+                int inputttt = userInput();
+                System.out.println("Quantity: "+category.get(cat).getProducts().get(inputttt).getQuantity());
+                System.out.println("Quantity to add:");
+                int input1 = userInput();
+                category.get(cat).getProducts().get(inputttt).addProduct(input1);
+                inventoryMainMenu();
                 break;
             case 3:
                 inventoryMainMenu();
                 break;
             default:
                 System.out.println("Wrong choice please try again! ");
+                addProductMenu();
         }
 
     }
@@ -266,27 +293,17 @@ public class Menus {
                 inventoryMainMenu();
                 break;
             case 2:
+                System.out.println("coming soon...");
+                userWhateverInput();
                 // code block
                 break;
             case 3:
                 System.exit(0);
                 break;
             default:
-                System.out.println("Wrong choice please try again! ");
+                System.out.println("Wrong choice please try again! \n Type 0 to retry");
+                userInput();
         }
 
     }
-
 }
-
-//System.out.println("Category name: ");
-//        String n = userStrInput();
-//        productCategories cat = new productCategories(n);
-//        category.add(cat);
-//        printii();
-//        arrayProdPrint(category.get(0).getProducts());
-//
-////                productCategories cat = new productCategories();
-////                cat.setCategories( userStrInput());
-////                Categories.add(cat);
-////                cat.addProduct();

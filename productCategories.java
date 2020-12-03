@@ -19,12 +19,8 @@ public class productCategories implements ProductManipulation{
         return Products;
     }
 
-    public void setCategories(String categories) {
-        this.categories = categories;
-    }
-
     @Override
-    public void addProduct() { //add product
+    public void addProduct(int x) { //add product
         Menus.printii();
         System.out.println("Enter Product name: ");
         String N = Menus.userStrInput();
@@ -42,29 +38,16 @@ public class productCategories implements ProductManipulation{
     }
 
     @Override
-    public void removeProduct() {
-
+    public void removeProduct(int i) {
+        Products.remove(i);
     }
 
     @Override
     public String toString() {
         String x = "";
         for (int i = 0; i < Products.size(); i++) {
-            x += Products.get(i).toString();
+            x += Products.get(i).toString() + "\n";
         }
-
         return x;
     }
 }
-
-
-//        System.out.print("Product Name: ");
-//        String PN1 = input.nextLine();
-//        products.add(PN1);
-//      //  this.products[x].setProductName(input.nextLine());
-//        System.out.print("\nProduct Serial Number: ");
-//        double PS1 = input.nextDouble();
-//        products.add(PS1);
-//        System.out.println(products);
-//
-//        // this.products[x].setSerialNumber(input.nextInt());

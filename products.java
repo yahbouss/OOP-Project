@@ -9,7 +9,6 @@ public class products implements ProductManipulation{
     private String ExpirationDate;
     private int Quantity;
     private double Price;
-    int count;
 
     // GETTERS AND SETTERS
     public double getPrice() {
@@ -80,12 +79,12 @@ public class products implements ProductManipulation{
     }
 
     @Override
-    public void addProduct() {
-        this.Quantity++;
+    public void addProduct(int x) {
+        this.Quantity += x;
     }
 
     @Override
-    public void removeProduct() {
-        this.Quantity--;
+    public void removeProduct(int y) {
+        this.Quantity -= y;
     }
 }
